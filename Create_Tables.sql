@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS investment_account;
 DROP TABLE IF EXISTS external_bank_account;
 DROP TABLE IF EXISTS customer;
 --this is just a teeeeest.
-
+--blah blah blah
 CREATE TABLE customer (
 	customer_id INTEGER NOT NULL,
 	SSN VARCHAR (9),
