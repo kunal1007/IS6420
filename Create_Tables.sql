@@ -1,15 +1,15 @@
-DROP TABLE IF EXISTS customer;
-DROP TABLE IF EXISTS external_bank_account;
-DROP TABLE IF EXISTS investment_account;
-DROP TABLE IF EXISTS orders;
-DROP TABLE IF EXISTS securities;
-DROP TABLE IF EXISTS moving_price;
-DROP TABLE IF EXISTS listed_on;
-DROP TABLE IF EXISTS exchange;
-DROP TABLE IF EXISTS etf;
-DROP TABLE IF EXISTS stock;
-DROP TABLE IF EXISTS mutual_fund;
 DROP TABLE IF EXISTS crypto;
+DROP TABLE IF EXISTS mutual_fund;
+DROP TABLE IF EXISTS stock;
+DROP TABLE IF EXISTS etf;
+DROP TABLE IF EXISTS exchange;
+DROP TABLE IF EXISTS listed_on;
+DROP TABLE IF EXISTS moving_price;
+DROP TABLE IF EXISTS securities;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS investment_account;
+DROP TABLE IF EXISTS external_bank_account;
+DROP TABLE IF EXISTS customer;
 
 CREATE TABLE customer (
 	customer_id INTEGER NOT NULL,
