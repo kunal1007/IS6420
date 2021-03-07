@@ -1,5 +1,5 @@
 --Robinhood Data Tables
-
+--Yo you can edit it online
 DROP TABLE IF EXISTS Customer;
 DROP TABLE IF EXISTS External_bank_account;
 DROP TABLE IF EXISTS Investment_account;
