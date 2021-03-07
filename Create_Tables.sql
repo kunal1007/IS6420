@@ -1,87 +1,96 @@
-DROP TABLE IF EXISTS crypto;
-DROP TABLE IF EXISTS mutual_fund;
-DROP TABLE IF EXISTS stock;
-DROP TABLE IF EXISTS etf;
-DROP TABLE IF EXISTS exchange;
-DROP TABLE IF EXISTS listed_on;
-DROP TABLE IF EXISTS moving_price;
-DROP TABLE IF EXISTS securities;
-DROP TABLE IF EXISTS orders;
-DROP TABLE IF EXISTS investment_account;
-DROP TABLE IF EXISTS external_bank_account;
-DROP TABLE IF EXISTS customer;
---this is just a teeeeest.
---blah blah blah
-CREATE TABLE customer (
-	customer_id INTEGER NOT NULL,
-	SSN VARCHAR (9),
-	phone_number VARCHAR(11),
-	email_address VARCHAR (60),
-	country VARCHAR (25),
-	citizenship VARCHAR (25), --need this?
-	residential_address VARCHAR (100), --split out to address table?
-	dob DATE,
-	first_name VARCHAR (100),
-	PRIMARY KEY (customer_id)
-);
+--Robinhood Data Tables
 
-CREATE TABLE external_bank_account (
-	external_account_id INTEGER NOT NULL,
-	account_number INTEGER,
-	routing_number INTEGER,
-	customer_id INTEGER,
-	PRIMARY KEY (external_account_id),
-	CONSTRAINT eba_customer_id FOREIGN KEY (customer_id) REFERENCES customer (customer_id)	
-);
+DROP TABLE IF EXISTS Customer;
+DROP TABLE IF EXISTS External_bank_account;
+DROP TABLE IF EXISTS Investment_account;
+DROP TABLE IF EXISTS Order_header;
+DROP TABLE IF EXISTS Security_header;
+DROP TABLE IF EXISTS ETF;
+DROP TABLE IF EXISTS Stock;
+DROP TABLE IF EXISTS Mutual_fund;
+DROP TABLE IF EXISTS Crypto;
+DROP TABLE IF EXISTS Moving_price;
+DROP TABLE IF EXISTS Exchange;
+DROP TABLE IF EXISTS Listed_on;
 
-CREATE TABLE investment_account (
-	account_id INTEGER NOT NULL,
-	balance MONEY,
-	premium_account BOOLEAN,
-	standard_account BOOLEAN,
-	customer_id INTEGER,
-	PRIMARY KEY (account_id),
-	CONSTRAINT ia_customer_id FOREIGN KEY (customer_id) REFERENCES customer (customer_id)	
-);
+CREATE TABLE Customer (Customer_ID INTEGER NOT NULL,
+Customer_name VARCHAR (50) NOT NULL,
+SSN CHAR(9) NOT NULL,
+Phone_number VARCHAR(10),
+Email_address VARCHAR(200),
+Address_line_1 VARCHAR (200),
+City VARCHAR (100),
+State_province VARCHAR (50),
+Postal_code VARCHAR (25),
+Country VARCHAR(50),
+Citizenship VARCHAR(50),
+DOB DATE,
+PRIMARY KEY (customer_id));
 
-CREATE TABLE orders (
-	order_id INTEGER NOT NULL,
-	order_time TIMESTAMP,
-	quantity INTEGER,
-	customer_id INTEGER,
-	PRIMARY KEY (order_id),
-	CONSTRAINT o_customer_id FOREIGN KEY (customer_id) REFERENCES customer (customer_id)
-);
+CREATE TABLE External_bank_account (External_Account_ID INTEGER NOT NULL,
+External_account_number CHAR(20) NOT NULL,
+External_routing_number CHAR(20) NOT NULL,
+Customer_ID INTEGER,
+PRIMARY KEY (External_Account_ID),
+CONSTRAINT External_bank_account_fkey_Customer_ID FOREIGN KEY (Customer_ID) REFERENCES Customer (Customer_ID));
 
-CREATE TABLE securities (
-	ticker_id INTEGER NOT NULL,
-	security_name VARCHAR (40),
-	order_id INTEGER,
-	account_id INTEGER,
-	PRIMARY KEY (ticker_id),
-	CONSTRAINT s_account_id FOREIGN KEY (account_id) REFERENCES investment_account (account_id),
-	CONSTRAINT s_order_id FOREIGN KEY (order_id) REFERENCES orders (order_id)
-);
+CREATE TABLE Investment_account (Account_number INTEGER NOT NULL,
+Balance MONEY,
+Premium_account BOOLEAN,
+Customer_ID INTEGER,
+PRIMARY KEY (Account_number),
+CONSTRAINT Investment_account_fkey_Customer_ID FOREIGN KEY (Customer_ID) REFERENCES Customer (Customer_ID));
 
-CREATE TABLE moving_price (
-	
-);
+CREATE TABLE Order_header (Order_ID INTEGER NOT NULL,
+Order_time TIME,
+Quantity INTEGER,
+Customer_ID INTEGER,
+PRIMARY KEY (Order_ID),
+CONSTRAINT Order_header_fkey_Customer_ID FOREIGN KEY (Customer_ID) REFERENCES Customer (Customer_ID));
 
-CREATE TABLE listed_on ();
-CREATE TABLE exchange ();
-CREATE TABLE etf ();
-CREATE TABLE stock ();
-CREATE TABLE mutual_fund ();
-CREATE TABLE crypto ();
+CREATE TABLE Security_header (Ticker_ID VARCHAR(20) NOT NULL,
+Security_name VARCHAR (30),
+Account_number INTEGER,
+Order_ID INTEGER,
+PRIMARY KEY (Ticker_ID),
+CONSTRAINT Security_header_fkey_Account_number FOREIGN KEY (Account_number) REFERENCES Investment_account (Account_number),
+CONSTRAINT Security_header_fkey_Order_ID FOREIGN KEY (Order_ID) REFERENCES Order_header (Order_ID));
 
+CREATE TABLE ETF (E_Ticker_ID VARCHAR(20) NOT NULL,
+PRIMARY KEY (E_Ticker_ID),
+CONSTRAINT ETF_pkey_E_Ticker_ID FOREIGN KEY (E_Ticker_ID) REFERENCES Security_header (Ticker_ID));
 
+CREATE TABLE Stock (S_Ticker_ID VARCHAR(20) NOT NULL,
+PRIMARY KEY (S_Ticker_ID),
+CONSTRAINT Stock_pkey_S_Ticker_ID FOREIGN KEY (S_Ticker_ID) REFERENCES Security_header (Ticker_ID));
 
+CREATE TABLE Mutual_fund (M_Ticker_ID VARCHAR(20) NOT NULL,
+PRIMARY KEY (M_Ticker_ID),
+CONSTRAINT Mutual_fund_pkey_M_Ticker_ID FOREIGN KEY (M_Ticker_ID) REFERENCES Security_header (Ticker_ID));
 
+CREATE TABLE Crypto (C_Ticker_ID VARCHAR(20) NOT NULL,
+PRIMARY KEY (C_Ticker_ID),
+CONSTRAINT Crypto_pkey_C_Ticker_ID FOREIGN KEY (C_Ticker_ID) REFERENCES Security_header (Ticker_ID));
 
+CREATE TABLE Moving_price (Timeprice_ID VARCHAR (30) NOT NULL,
+Price_timestamp TIME,
+Ask_price MONEY,
+Bid_price MONEY,
+Trade_volume NUMERIC,
+Ticker_ID VARCHAR(20),
+PRIMARY KEY (Timeprice_ID, Ticker_ID),
+CONSTRAINT Moving_price_pkey_Ticker_ID FOREIGN KEY (Ticker_ID) REFERENCES Security_header (Ticker_ID));
 
+CREATE TABLE Exchange (Exchange_ID VARCHAR(30) NOT NULL,
+Exchange_name VARCHAR(50),
+Currency MONEY,
+Market_Open TIME,
+Market_Close TIME,
+PRIMARY KEY (Exchange_ID));
 
-
-
-
-
-
+CREATE TABLE Listed_on (
+Ticker_ID VARCHAR(20),
+Exchange_ID VARCHAR(30),
+PRIMARY KEY (Ticker_ID, Exchange_ID),
+CONSTRAINT Listed_on_pkey_Ticker_ID FOREIGN KEY (Ticker_ID) REFERENCES Security_header (Ticker_ID),
+CONSTRAINT Listed_on_pkey_Exchange_ID FOREIGN KEY (Exchange_ID) REFERENCES Exchange (Exchange_ID));
