@@ -1,22 +1,22 @@
 --Robinhood Data Tables
 --Yo you can edit it online
-DROP TABLE IF EXISTS Customer;
-DROP TABLE IF EXISTS External_bank_account;
-DROP TABLE IF EXISTS Investment_account;
-DROP TABLE IF EXISTS Order_header;
-DROP TABLE IF EXISTS Security_header;
-DROP TABLE IF EXISTS ETF;
-DROP TABLE IF EXISTS Stock;
-DROP TABLE IF EXISTS Mutual_fund;
-DROP TABLE IF EXISTS Crypto;
-DROP TABLE IF EXISTS Moving_price;
-DROP TABLE IF EXISTS Exchange;
 DROP TABLE IF EXISTS Listed_on;
+DROP TABLE IF EXISTS Exchange;
+DROP TABLE IF EXISTS Moving_price;
+DROP TABLE IF EXISTS Crypto;
+DROP TABLE IF EXISTS Mutual_fund;
+DROP TABLE IF EXISTS Stock;
+DROP TABLE IF EXISTS ETF;
+DROP TABLE IF EXISTS Security_header;
+DROP TABLE IF EXISTS Order_header;
+DROP TABLE IF EXISTS Investment_account;
+DROP TABLE IF EXISTS External_bank_account;
+DROP TABLE IF EXISTS Customer;
 
 CREATE TABLE Customer (Customer_ID INTEGER NOT NULL,
 Customer_name VARCHAR (50) NOT NULL,
-SSN CHAR(9) NOT NULL,
-Phone_number VARCHAR(10),
+SSN CHAR(11) NOT NULL,
+Phone_number VARCHAR(12),
 Email_address VARCHAR(200),
 Address_line_1 VARCHAR (200),
 City VARCHAR (100),
