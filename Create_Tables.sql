@@ -20,16 +20,16 @@ Phone_number VARCHAR(10),
 Email_address VARCHAR(200),
 Address_line_1 VARCHAR (200),
 City VARCHAR (100),
-State_province VARCHAR (50),
-Postal_code VARCHAR (25),
+State_province VARCHAR (2),
+Postal_code VARCHAR (5),
 Country VARCHAR(50),
 Citizenship VARCHAR(50),
 DOB DATE,
 PRIMARY KEY (customer_id));
 
 CREATE TABLE External_bank_account (External_Account_ID INTEGER NOT NULL,
-External_account_number CHAR(20) NOT NULL,
-External_routing_number CHAR(20) NOT NULL,
+External_account_number VARCHAR(30) NOT NULL,
+External_routing_number VARCHAR(9) NOT NULL,
 Customer_ID INTEGER,
 PRIMARY KEY (External_Account_ID),
 CONSTRAINT External_bank_account_fkey_Customer_ID FOREIGN KEY (Customer_ID) REFERENCES Customer (Customer_ID));
@@ -56,7 +56,7 @@ PRIMARY KEY (Ticker_ID),
 CONSTRAINT Security_header_fkey_Account_number FOREIGN KEY (Account_number) REFERENCES Investment_account (Account_number),
 CONSTRAINT Security_header_fkey_Order_ID FOREIGN KEY (Order_ID) REFERENCES Order_header (Order_ID));
 
-CREATE TABLE ETF (E_Ticker_ID VARCHAR(20) NOT NULL,
+CREATE TABLE ETF (E_Ticker_ID VARCHAR(4) NOT NULL,
 PRIMARY KEY (E_Ticker_ID),
 CONSTRAINT ETF_pkey_E_Ticker_ID FOREIGN KEY (E_Ticker_ID) REFERENCES Security_header (Ticker_ID));
 
@@ -77,20 +77,20 @@ Price_timestamp TIME,
 Ask_price MONEY,
 Bid_price MONEY,
 Trade_volume NUMERIC,
-Ticker_ID VARCHAR(20),
+Ticker_ID VARCHAR(4),
 PRIMARY KEY (Timeprice_ID, Ticker_ID),
 CONSTRAINT Moving_price_pkey_Ticker_ID FOREIGN KEY (Ticker_ID) REFERENCES Security_header (Ticker_ID));
 
 CREATE TABLE Exchange (Exchange_ID VARCHAR(30) NOT NULL,
 Exchange_name VARCHAR(50),
-Currency MONEY,
+Currency VARCHAR(3),
 Market_Open TIME,
 Market_Close TIME,
 PRIMARY KEY (Exchange_ID));
 
 CREATE TABLE Listed_on (
-Ticker_ID VARCHAR(20),
-Exchange_ID VARCHAR(30),
+Ticker_ID VARCHAR(4) NOT NULL,
+Exchange_ID VARCHAR(30) NOT NULL,
 PRIMARY KEY (Ticker_ID, Exchange_ID),
 CONSTRAINT Listed_on_pkey_Ticker_ID FOREIGN KEY (Ticker_ID) REFERENCES Security_header (Ticker_ID),
 CONSTRAINT Listed_on_pkey_Exchange_ID FOREIGN KEY (Exchange_ID) REFERENCES Exchange (Exchange_ID));
