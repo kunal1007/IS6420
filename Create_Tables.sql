@@ -52,6 +52,7 @@ CREATE TABLE Security_header (Ticker_ID VARCHAR(20) NOT NULL,
 Security_name VARCHAR (30),
 Account_number INTEGER,
 Order_ID INTEGER,
+Killswitch BOOLEAN,
 PRIMARY KEY (Ticker_ID),
 CONSTRAINT Security_header_fkey_Account_number FOREIGN KEY (Account_number) REFERENCES Investment_account (Account_number),
 CONSTRAINT Security_header_fkey_Order_ID FOREIGN KEY (Order_ID) REFERENCES Order_header (Order_ID));
