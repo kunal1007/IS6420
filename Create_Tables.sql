@@ -1,5 +1,7 @@
 --Robinhood Data Tables
 --Yo you can edit it online
+
+--blah blah blah
 DROP TABLE IF EXISTS Listed_on;
 DROP TABLE IF EXISTS Exchange;
 DROP TABLE IF EXISTS Moving_price;
